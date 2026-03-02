@@ -1,0 +1,1 @@
+<title>{{ auth()->user()->role }}</title>

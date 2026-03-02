@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <title>{{ auth()->user()->role }} | Kategori</title>
+    @include('layouts.style')
+</head>
+
+<body>
+    <div id="app">
+        <div class="main-wrapper main-wrapper-1">
+            <div class="navbar-bg"></div>
+            <nav class="navbar navbar-expand-lg main-navbar">
+                <form class="form-inline mr-auto">
+                    <ul class="navbar-nav mr-3">
+                        <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
+                        <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i class="fas fa-search"></i></a></li>
+                    </ul>
+                </form>
+                <ul class="navbar-nav navbar-right">
+                    <!-- <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg beep"><i class="far fa-bell"></i></a>
+                        <div class="dropdown-menu dropdown-list dropdown-menu-right">
+                            <div class="dropdown-header">Notifications
+                                <div class="float-right">
+                                    <a href="#">Mark All As Read</a>
+                                </div>
+                            </div>
+                            <div class="dropdown-list-content dropdown-list-icons">
+                                <a href="#" class="dropdown-item dropdown-item-unread">
+                                    <div class="dropdown-item-icon bg-primary text-white">
+                                        <i class="fas fa-code"></i>
+                                    </div>
+                                    <div class="dropdown-item-desc">
+                                        Template update is available now!
+                                        <div class="time text-primary">2 Min Ago</div>
+                                    </div>
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    <div class="dropdown-item-icon bg-info text-white">
+                                        <i class="far fa-user"></i>
+                                    </div>
+                                    <div class="dropdown-item-desc">
+                                        <b>You</b> and <b>Dedik Sugiharto</b> are now friends
+                                        <div class="time">10 Hours Ago</div>
+                                    </div>
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    <div class="dropdown-item-icon bg-success text-white">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <div class="dropdown-item-desc">
+                                        <b>Kusnaedi</b> has moved task <b>Fix bug header</b> to <b>Done</b>
+                                        <div class="time">12 Hours Ago</div>
+                                    </div>
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    <div class="dropdown-item-icon bg-danger text-white">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </div>
+                                    <div class="dropdown-item-desc">
+                                        Low disk space. Let's clean it!
+                                        <div class="time">17 Hours Ago</div>
+                                    </div>
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    <div class="dropdown-item-icon bg-info text-white">
+                                        <i class="fas fa-bell"></i>
+                                    </div>
+                                    <div class="dropdown-item-desc">
+                                        Welcome to Stisla template!
+                                        <div class="time">Yesterday</div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="dropdown-footer text-center">
+                                <a href="#">View All <i class="fas fa-chevron-right"></i></a>
+                            </div>
+                        </div>
+                    </li> -->
+                    @include('layouts.user')
+                </ul>
+            </nav>
+            @include('layouts.logo')
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <section class="section">
+                    <div class="section-header">
+                        <h1>Laporan</h1>
+                    </div>
+
+                    @if(session('error'))
+                    <script>
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal!',
+                            text: 'Data tidak ditemukan untuk periode yang dipilih!',
+                            showConfirmButton: true,
+                        });
+                    </script>
+                    @endif
+
+                    <div class="row">
+                        <div class="col-12 col-md-6 col-lg-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form action="{{ route('laporan.export') }}" method="POST">
+                                        @csrf
+                                        <div class="mb-3">
+                                            <label for="tanggal_mulai">Mulai Tanggal </label>
+                                            <input type="date" class="form-control" id="tanggal_mulai" name="tanggal_mulai" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="tanggal_selesai">Selesai Tanggal </label>
+                                            <input type="date" class="form-control" id="tanggal_selesai" name="tanggal_selesai" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="pilih_laporan">Laporan</label>
+                                            <select name="pilih_laporan" id="pilih_laporan" class="form-control" required>
+                                                <option value="" disabled selected>-- Pilih --</option>
+                                                <option value="barang">Data Barang</option>
+                                                <option value="barang_keluar">Data Barang Keluar</option>
+                                                <option value="barang_masuk">Data Barang Masuk</option>
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary"><i class="fa fa-print"></i> Cetak</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="card">
+                        <div class="card-body">
+                            <form action="#" method="POST">
+                                <button type="submit" class="btn btn-primary w-100" disabled>Silakan filter laporan terlebih dahulu</button>
+                            </form>
+                        </div>
+                    </div> -->
+                </section>
+            </div>
+            @include('layouts.footer')
+        </div>
+    </div>
+
+    <!-- General JS Scripts -->
+    @include('layouts.script')
+</body>
+
+</html>

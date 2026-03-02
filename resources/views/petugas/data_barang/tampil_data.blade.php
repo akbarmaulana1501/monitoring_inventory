@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <title>{{ auth()->user()->role }} | Data Barang</title>
+    @include('layouts.style')
+</head>
+
+<body>
+    <div id="app">
+        <div class="main-wrapper main-wrapper-1">
+            <div class="navbar-bg"></div>
+            <nav class="navbar navbar-expand-lg main-navbar">
+                <form class="form-inline mr-auto">
+                    <ul class="navbar-nav mr-3">
+                        <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
+                        <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i class="fas fa-search"></i></a></li>
+                    </ul>
+                </form>
+                <ul class="navbar-nav navbar-right">
+                    <!-- <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg beep"><i class="far fa-bell"></i></a>
+                        <div class="dropdown-menu dropdown-list dropdown-menu-right">
+                            <div class="dropdown-header">Notifications
+                                <div class="float-right">
+                                    <a href="#">Mark All As Read</a>
+                                </div>
+                            </div>
+                            <div class="dropdown-list-content dropdown-list-icons">
+                                <a href="#" class="dropdown-item dropdown-item-unread">
+                                    <div class="dropdown-item-icon bg-primary text-white">
+                                        <i class="fas fa-code"></i>
+                                    </div>
+                                    <div class="dropdown-item-desc">
+                                        Template update is available now!
+                                        <div class="time text-primary">2 Min Ago</div>
+                                    </div>
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    <div class="dropdown-item-icon bg-info text-white">
+                                        <i class="far fa-user"></i>
+                                    </div>
+                                    <div class="dropdown-item-desc">
+                                        <b>You</b> and <b>Dedik Sugiharto</b> are now friends
+                                        <div class="time">10 Hours Ago</div>
+                                    </div>
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    <div class="dropdown-item-icon bg-success text-white">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <div class="dropdown-item-desc">
+                                        <b>Kusnaedi</b> has moved task <b>Fix bug header</b> to <b>Done</b>
+                                        <div class="time">12 Hours Ago</div>
+                                    </div>
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    <div class="dropdown-item-icon bg-danger text-white">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </div>
+                                    <div class="dropdown-item-desc">
+                                        Low disk space. Let's clean it!
+                                        <div class="time">17 Hours Ago</div>
+                                    </div>
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    <div class="dropdown-item-icon bg-info text-white">
+                                        <i class="fas fa-bell"></i>
+                                    </div>
+                                    <div class="dropdown-item-desc">
+                                        Welcome to Stisla template!
+                                        <div class="time">Yesterday</div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="dropdown-footer text-center">
+                                <a href="#">View All <i class="fas fa-chevron-right"></i></a>
+                            </div>
+                        </div>
+                    </li> -->
+                    @include('layouts.user')
+                </ul>
+            </nav>
+            @include('layouts.logo')
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <section class="section">
+                    <div class="section-header">
+                        <h1>Data Barang</h1>
+                    </div>
+                    @if (session('success'))
+                    <div class="alert alert-success alert-dismissible show fade" id="success-alert">
+                        <div class="alert-body">
+                            <button class="close" data-dismiss="alert">
+                                <span>&times;</span>
+                            </button>
+                            {{ session('success') }}
+                        </div>
+                    </div>
+
+                    <script>
+                        setTimeout(function() {
+                            let alert = document.getElementById('success-alert');
+                            if (alert) {
+                                alert.style.transition = "opacity 0.5s ease";
+                                alert.style.opacity = "0";
+                                setTimeout(() => alert.remove(), 500);
+                            }
+                        }, 3000); // 3 detik
+                    </script>
+                    @endif
+
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <!-- <a href="/tambah_barang" class="btn btn-primary">
+                                        <i class="fa fa-plus"></i> Tambah Data
+                                    </a> -->
+
+                                    <form method="GET" action="{{ url()->current() }}" class="form-inline">
+                                        <div class="input-group">
+                                            <input type="text" name="search" class="form-control" placeholder="Cari barang..." value="{{ request('search') }}">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary" type="submit">Cari</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-md">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Kode</th>
+                                                    <th>Nama Barang</th>
+                                                    <th>Kategori</th>
+                                                    <th>Stok</th>
+                                                    <th>Satuan</th>
+                                                    <th>Lokasi</th>
+                                                    <th>Kondisi</th>
+                                                    <th>Tanggal Masuk</th>
+                                                    <th>Aksi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($barang as $index => $b)
+                                                <tr>
+                                                    <td>{{ $barang->firstItem() + $index  }}</td>
+                                                    <td>{{ $b->kode_barang }}</td>
+                                                    <td>{{ $b->nama_barang }}</td>
+                                                    <td>{{ $b->kategori }}</td>
+                                                    <td>{{ $b->stok + $b->stok_sekarang }}</td>
+                                                    <td>{{ $b->satuan }}</td>
+                                                    <td>{{ $b->lokasi }}</td>
+                                                    <td>{{ $b->kondisi }}</td>
+                                                    <td>{{ $b->created_at }}</td>
+                                                    <td>
+                                                        <a href="{{ route('edit_barang', $b->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                                        <form id="form-hapus-{{ $b->id }}" action="{{ route('hapus_barang', $b->id) }}" method="POST" style="display:inline;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="button" class="btn btn-danger btn-sm" onclick="hapusData('{{ $b->id }}', '{{ $b->kode_barang }}')">
+                                                                Hapus
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="card-footer text-right">
+                                        <nav class="d-inline-block">
+                                            {{ $barang->links('pagination::bootstrap-4') }}
+                                        </nav>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </section>
+            </div>
+            @include('layouts.footer')
+        </div>
+    </div>
+
+    <!-- General JS Scripts -->
+    @include('layouts.script')
+</body>
+
+</html>
